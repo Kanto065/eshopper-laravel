@@ -1,14 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SubCategoryController;
+use App\Models\Role;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\Frontend\ContactController;
-use App\Http\Controllers\Frontend\CheckoutController;
-use App\Http\Controllers\Frontend\ShopController;
-use App\Http\Controllers\Frontend\ShopDetailController;
-use App\Http\Controllers\Frontend\ShoppingCartController;
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -21,13 +19,35 @@ use App\Http\Controllers\Frontend\ShoppingCartController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 
-Route::get('/', [HomeController::class, 'index']);
-Route::get('/contact', [ContactController::class, 'index']);
-Route::get('/checkout', [CheckoutController::class, 'index']);
-Route::get('/shop', [ShopController::class, 'index']);
-Route::get('/detail', [ShopDetailController::class, 'index']);
-Route::get('/cart', [ShoppingCartController::class, 'index']);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'role:user'])->name('dashboard');
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::controller(DashboardController::class)->group(function () {
+        Route::get('/admin/dashboard', 'Index')->name('admindashboard');
+    });
+
+    Route::controller(CategoryController::class)->group(function () {
+        Route::get('/admin/all-category', 'Index')->name('allcategory');
+        Route::get('/admin/add-category', 'AddCategory')->name('addcategory');
+    });
+
+    Route::controller(SubCategoryController::class)->group(function () {
+        Route::get('/admin/all-subcategory', 'Index')->name('allsubcategory');
+        Route::get('/admin/add-subcategory', 'AddSubCategory')->name('addsubcategory');
+    });
+    Route::controller(ProductController::class)->group(function () {
+        Route::get('/admin/all-products', 'Index')->name('allproducts');
+        Route::get('/admin/add-product', 'AddProduct')->name('addproduct');
+    });
+    Route::controller(OrderController::class)->group(function () {
+        Route::get('/admin/pending-order', 'Index')->name('pendingorder');
+    });
+});
+
+require __DIR__ . '/auth.php';
