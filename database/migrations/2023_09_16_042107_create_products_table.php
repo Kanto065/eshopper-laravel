@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->text('product_short_des');
             $table->text('product_long_des');
             $table->integer('price');
+            $table->integer('quantity');
             $table->integer('product_category_id');
             $table->integer('product_subcategory_id');
             $table->string('slug');
