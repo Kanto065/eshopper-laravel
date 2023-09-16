@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\FuncCall;
 
 class CategoryController extends Controller
 {
@@ -32,5 +33,37 @@ class CategoryController extends Controller
         ]);
 
         return redirect()->route('allcategory')->with('message', 'Category Added Successfully!');
+    }
+
+    public function EditCategory($id)
+    {
+        $category_info = Category::findOrFail($id);
+
+        return view('admin.editcategory', compact('category_info'));
+    }
+
+    public function UpdateCategory(Request $request)
+    {
+        $category_id = $request->category_id;
+
+        $request->validate([
+            'category_name' => 'required|unique:categories|max:255',
+        ]);
+
+        Category::findOrFail($category_id)->update([
+            'category_name' => $request->category_name,
+            'slug' => strtolower(str_replace(' ', '-', $request->category_name))
+
+        ]);
+
+        return redirect()->route('allcategory')->with('message', 'Category Updated Successfully!');
+    }
+
+
+    public function DeleteCategory($id)
+    {
+        Category::findOrFail($id)->delete();
+
+        return redirect()->route('allcategory')->with('message', 'Category Deleted Successfully!');
     }
 }
