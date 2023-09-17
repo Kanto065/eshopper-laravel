@@ -96,4 +96,56 @@ class ProductController extends Controller
 
         return redirect()->route('allproducts')->with('message', 'Product Image Updated Successfully!');
     }
+
+    public function EditProduct($id)
+    {
+        $productinfo = Product::findOrFail($id);
+
+        $categories = Category::latest()->get();
+        $subcategories = Subcategory::latest()->get();
+
+        return view('admin.editproduct', compact('productinfo', 'categories', 'subcategories'));
+    }
+
+    public function UpdateProduct(Request $request)
+    {
+        $productid = $request->id;
+
+        $request->validate([
+            'product_name' => 'required|unique:products|max:255',
+            'price' => 'required',
+            'quantity' => 'required',
+            'product_short_des' => 'required',
+            'product_long_des' => 'required',
+            'product_category_id' => 'required',
+            'product_subcategory_id' => 'required'
+        ]);
+
+        $category_id = $request->product_category_id;
+        $subcategory_id = $request->product_subcategory_id;
+
+        $category_name = Category::where('id', $category_id)->value('category_name');
+        $subcategory_name = Subcategory::where('id', $subcategory_id)->value('subcategory_name');
+
+        Product::findOrFail($productid)->update([
+            'product_name' => $request->product_name,
+            'slug' => strtolower(str_replace(' ', '-', $request->product_name)),
+            'price' => $request->price,
+            'quantity' => $request->quantity,
+            'product_short_des' => $request->product_short_des,
+            'product_long_des' => $request->product_long_des,
+            'product_category_name' => $category_name,
+            'product_subcategory_name' => $subcategory_name,
+            'product_long_des' => $request->product_long_des,
+            'product_category_id' => $category_id,
+            'product_subcategory_id' => $subcategory_id
+        ]);
+
+        return redirect()->route('allproducts')->with('message', 'Product Information Updated Successfully!');
+    }
+
+    public function DeleteProduct($id)
+    {
+        Product::findOrFail($id)->delete();
+    }
 }
