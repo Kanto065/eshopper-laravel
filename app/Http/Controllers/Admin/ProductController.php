@@ -12,7 +12,8 @@ class ProductController extends Controller
 {
     public function Index()
     {
-        return view('admin.allproducts');
+        $products = Product::latest()->get();
+        return view('admin.allproducts', compact('products'));
     }
 
     public function AddProduct()
@@ -67,5 +68,32 @@ class ProductController extends Controller
         Subcategory::where('id', $subcategory_id)->increment('product_count', 1);
 
         return redirect()->route('allproducts')->with('message', 'Product Added Successfully!');
+    }
+
+    public function EditProductImg($id)
+    {
+        $productinfo = Product::findOrFail($id);
+        return view('admin.editproductimg', compact('productinfo'));
+    }
+
+    public function UpdateProductImg(Request $request)
+    {
+        $request->validate([
+            'product_img' => 'required|image|mimes:jpeg,jpg,gif,svg,png|max:4096'
+        ]);
+
+        $id = $request->id;
+
+        $image = $request->file('product_img');
+        $image_name = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+        $request->product_img->move(public_path('upload'), $image_name);
+
+        $img_url = 'upload/' . $image_name;
+
+        Product::findOrFail($id)->update([
+            'product_img' => $img_url,
+        ]);
+
+        return redirect()->route('allproducts')->with('message', 'Product Image Updated Successfully!');
     }
 }
