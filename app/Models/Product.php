@@ -12,11 +12,13 @@ class Product extends Model
         'product_name',
         'product_short_des',
         'product_long_des',
-        'product_subcategory_name',
         'product_category_name',
         'product_category_id',
         'product_subcategory_id',
+        'product_subcategory_name',
         'product_img',
         'slug',
+        'price',
+        'quantity'
     ];
 }

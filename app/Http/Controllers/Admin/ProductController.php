@@ -127,6 +127,8 @@ class ProductController extends Controller
         $category_name = Category::where('id', $category_id)->value('category_name');
         $subcategory_name = Subcategory::where('id', $subcategory_id)->value('subcategory_name');
 
+        //dd($request->quantity);
+
         Product::findOrFail($productid)->update([
             'product_name' => $request->product_name,
             'slug' => strtolower(str_replace(' ', '-', $request->product_name)),
@@ -136,9 +138,8 @@ class ProductController extends Controller
             'product_long_des' => $request->product_long_des,
             'product_category_name' => $category_name,
             'product_subcategory_name' => $subcategory_name,
-            'product_long_des' => $request->product_long_des,
             'product_category_id' => $category_id,
-            'product_subcategory_id' => $subcategory_id
+            'product_subcategory_id' => $subcategory_id,
         ]);
 
         return redirect()->route('allproducts')->with('message', 'Product Information Updated Successfully!');

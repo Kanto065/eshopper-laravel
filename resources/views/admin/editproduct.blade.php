@@ -66,7 +66,7 @@ Edit Product - Shop4All
                 <label class="col-sm-2 col-form-label" for="basic-default-name">Select Category</label>
                 <div class="col-sm-10">
                     <select class="form-select" id="product_category_id" name="product_category_id" aria-label="Default select example">
-                        <option selected>{{$productinfo->product_category_name}}</option>
+                        <option value="{{$productinfo->product_category_id}}" selected>--> {{$productinfo->product_category_name}} <--</option>
                         @foreach($categories as $category)
                           <option value="{{$category->id}}">{{$category->category_name}}</option>
                         @endforeach
@@ -80,7 +80,7 @@ Edit Product - Shop4All
                 <label class="col-sm-2 col-form-label" for="basic-default-name">Select Sub Category</label>
                 <div class="col-sm-10">
                     <select class="form-select" id="product_subcategory_id" name="product_subcategory_id" aria-label="Default select example">
-                        <option selected>{{$productinfo->product_subcategory_name}}</option>
+                        <option value="{{$productinfo->product_subcategory_id}}" selected>--> {{$productinfo->product_subcategory_name}} <--</option>
                         @foreach($subcategories as $key => $subcategory)
                           <option value="{{$subcategory->id}}">{{$subcategory->subcategory_name}}</option>
                         @endforeach
