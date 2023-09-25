@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function Index()
     {
-        return view('user_template.index');
+        $allproducts = Product::latest()->get();
+        return view('user_template.index', compact('allproducts'));
     }
 }

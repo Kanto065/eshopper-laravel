@@ -1,16 +1,19 @@
+@php
+$categories = App\Models\Category::latest()->get();
+@endphp
+
 @extends('user_template.layouts.index_template')
 @section('page_title')
 Home - Shop4All
 @endsection
 @section('main-container')
 
-   <!-- Navbar Start -->
-   <div class="container-fluid mb-5">
+<!-- Navbar Start -->
+<div class="container-fluid mb-5">
     <div class="row border-top px-xl-5">
         <div class="col-lg-3 d-none d-lg-block">
             <a class="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-white w-100"
-                data-toggle="collapse" href="#navbar-vertical"
-                style="height: 65px; margin-top: -1px; padding: 0 30px;">
+                data-toggle="collapse" href="#navbar-vertical" style="height: 65px; margin-top: -1px; padding: 0 30px;">
                 <h6 class="m-0">Categories</h6>
                 <i class="fa fa-angle-down text-dark"></i>
             </a>
@@ -26,15 +29,12 @@ Home - Shop4All
                             <a href="" class="dropdown-item">Baby's Dresses</a>
                         </div>
                     </div>
-                    <a href="" class="nav-item nav-link">Shirts</a>
-                    <a href="" class="nav-item nav-link">Jeans</a>
-                    <a href="" class="nav-item nav-link">Swimwear</a>
-                    <a href="" class="nav-item nav-link">Sleepwear</a>
-                    <a href="" class="nav-item nav-link">Sportswear</a>
-                    <a href="" class="nav-item nav-link">Jumpsuits</a>
-                    <a href="" class="nav-item nav-link">Blazers</a>
-                    <a href="" class="nav-item nav-link">Jackets</a>
-                    <a href="" class="nav-item nav-link">Shoes</a>
+                    @foreach ($categories as $category)
+                    <a href="{{route('categoryshop', [$category->id, $category->slug]) }}"
+                        class="nav-item nav-link">{{$category->category_name}}</a>
+                    @endforeach
+
+
                 </div>
             </nav>
         </div>
@@ -49,17 +49,17 @@ Home - Shop4All
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
-                        <a href="{{url('/')}}" class="nav-item nav-link active">Home</a>
-                        <a href="{{url('/shop')}}" class="nav-item nav-link">Shop</a>
-                        <a href="{{url('/detail')}}" class="nav-item nav-link">Shop Detail</a>
+                        <a href="{{route('home')}}" class="nav-item nav-link active">Home</a>
+                        {{-- <a href="{{route('categoryshop')}}" class="nav-item nav-link">Shop</a> --}}
+                        <a href="{{route('productdetail')}}" class="nav-item nav-link">Shop Detail</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <a href="{{url('/cart')}}" class="dropdown-item">Shopping Cart</a>
-                                <a href="{{url('/checkout')}}" class="dropdown-item">Checkout</a>
+                                <a href="{{route('addtocart')}}" class="dropdown-item">Shopping Cart</a>
+                                <a href="{{route('checkout')}}" class="dropdown-item">Checkout</a>
                             </div>
                         </div>
-                        <a href="{{url('/contact')}}" class="nav-item nav-link">Contact</a>
+                        <a href="{{route('contact')}}" class="nav-item nav-link">Contact</a>
                     </div>
                     <div class="navbar-nav ml-auto py-0">
                         <a href="" class="nav-item nav-link">Login</a>
@@ -70,7 +70,7 @@ Home - Shop4All
             <div id="header-carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active" style="height: 410px;">
-                        <img class="img-fluid" src="{{url('home/img/carousel-1.jpg')}}" alt="Image">
+                        <img class="img-fluid" src="{{asset('home/img/carousel-1.jpg')}}" alt="Image">
                         <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                             <div class="p-3" style="max-width: 700px;">
                                 <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First
@@ -81,7 +81,7 @@ Home - Shop4All
                         </div>
                     </div>
                     <div class="carousel-item" style="height: 410px;">
-                        <img class="img-fluid" src="{{url('home/img/carousel-2.jpg')}}" alt="Image">
+                        <img class="img-fluid" src="{{asset('home/img/carousel-2.jpg')}}" alt="Image">
                         <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                             <div class="p-3" style="max-width: 700px;">
                                 <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First
@@ -150,7 +150,7 @@ Home - Shop4All
             <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                 <p class="text-right">15 Products</p>
                 <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                    <img class="img-fluid" src="{{url('home/img//cat-1.jpg')}}" alt="">
+                    <img class="img-fluid" src="{{asset('home/img//cat-1.jpg')}}" alt="">
                 </a>
                 <h5 class="font-weight-semi-bold m-0">Men's dresses</h5>
             </div>
@@ -159,7 +159,7 @@ Home - Shop4All
             <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                 <p class="text-right">15 Products</p>
                 <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                    <img class="img-fluid" src="{{url('home/img//cat-2.jpg')}}" alt="">
+                    <img class="img-fluid" src="{{asset('home/img//cat-2.jpg')}}" alt="">
                 </a>
                 <h5 class="font-weight-semi-bold m-0">Women's dresses</h5>
             </div>
@@ -168,7 +168,7 @@ Home - Shop4All
             <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                 <p class="text-right">15 Products</p>
                 <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                    <img class="img-fluid" src="{{url('home/img//cat-3.jpg')}}" alt="">
+                    <img class="img-fluid" src="{{asset('home/img//cat-3.jpg')}}" alt="">
                 </a>
                 <h5 class="font-weight-semi-bold m-0">Baby's dresses</h5>
             </div>
@@ -177,7 +177,7 @@ Home - Shop4All
             <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                 <p class="text-right">15 Products</p>
                 <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                    <img class="img-fluid" src="{{url('home/img//cat-4.jpg')}}" alt="">
+                    <img class="img-fluid" src="{{asset('home/img//cat-4.jpg')}}" alt="">
                 </a>
                 <h5 class="font-weight-semi-bold m-0">Accerssories</h5>
             </div>
@@ -186,7 +186,7 @@ Home - Shop4All
             <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                 <p class="text-right">15 Products</p>
                 <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                    <img class="img-fluid" src="{{url('home/img//cat-5.jpg')}}" alt="">
+                    <img class="img-fluid" src="{{asset('home/img//cat-5.jpg')}}" alt="">
                 </a>
                 <h5 class="font-weight-semi-bold m-0">Bags</h5>
             </div>
@@ -195,7 +195,7 @@ Home - Shop4All
             <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                 <p class="text-right">15 Products</p>
                 <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                    <img class="img-fluid" src="{{url('home/img//cat-6.jpg')}}" alt="">
+                    <img class="img-fluid" src="{{asset('home/img//cat-6.jpg')}}" alt="">
                 </a>
                 <h5 class="font-weight-semi-bold m-0">Shoes</h5>
             </div>
@@ -210,7 +210,7 @@ Home - Shop4All
     <div class="row px-xl-5">
         <div class="col-md-6 pb-4">
             <div class="position-relative bg-secondary text-center text-md-right text-white mb-2 py-5 px-5">
-                <img src="{{url('home/img//offer-1.png')}}" alt="">
+                <img src="{{asset('home/img//offer-1.png')}}" alt="">
                 <div class="position-relative" style="z-index: 1;">
                     <h5 class="text-uppercase text-primary mb-3">20% off the all order</h5>
                     <h1 class="mb-4 font-weight-semi-bold">Spring Collection</h1>
@@ -220,7 +220,7 @@ Home - Shop4All
         </div>
         <div class="col-md-6 pb-4">
             <div class="position-relative bg-secondary text-center text-md-left text-white mb-2 py-5 px-5">
-                <img src="{{url('home/img//offer-2.png')}}" alt="">
+                <img src="{{asset('home/img//offer-2.png')}}" alt="">
                 <div class="position-relative" style="z-index: 1;">
                     <h5 class="text-uppercase text-primary mb-3">20% off the all order</h5>
                     <h1 class="mb-4 font-weight-semi-bold">Winter Collection</h1>
@@ -236,19 +236,20 @@ Home - Shop4All
 <!-- Products Start -->
 <div class="container-fluid pt-5">
     <div class="text-center mb-4">
-        <h2 class="section-title px-5"><span class="px-2">Trandy Products</span></h2>
+        <h2 class="section-title px-5"><span class="px-2">All Products</span></h2>
     </div>
     <div class="row px-xl-5 pb-3">
+        @foreach ($allproducts as $product)
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
             <div class="card product-item border-0 mb-4">
                 <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="{{url('home/img//product-1.jpg')}}" alt="">
+                    <img class="img-fluid w-100" src="{{asset($product->product_img)}}" alt="">
                 </div>
                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
+                    <h6 class="text-truncate mb-3">{{$product->product_name}}</h6>
                     <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                        <h6>${{$product->price}}</h6>
+                        <h6 class="text-muted ml-2"><del>${{$product->price}}</del></h6>
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between bg-light border">
@@ -259,146 +260,8 @@ Home - Shop4All
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="{{url('home/img//product-2.jpg')}}" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
-                        Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i
-                            class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="{{url('home/img//product-3.jpg')}}" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
-                        Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i
-                            class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="{{url('home/img//product-4.jpg')}}" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
-                        Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i
-                            class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="{{url('home/img//product-5.jpg')}}" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
-                        Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i
-                            class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="{{url('home/img//product-6.jpg')}}" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
-                        Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i
-                            class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="{{url('home/img//product-7.jpg')}}" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
-                        Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i
-                            class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="{{url('home/img//product-8.jpg')}}" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
-                        Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i
-                            class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                </div>
-            </div>
-        </div>
+        @endforeach
+
     </div>
 </div>
 <!-- Products End -->
@@ -436,7 +299,7 @@ Home - Shop4All
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
             <div class="card product-item border-0 mb-4">
                 <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="{{url('home/img//product-1.jpg')}}" alt="">
+                    <img class="img-fluid w-100" src="{{asset('home/img//product-1.jpg')}}" alt="">
                 </div>
                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                     <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
@@ -456,7 +319,7 @@ Home - Shop4All
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
             <div class="card product-item border-0 mb-4">
                 <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="{{url('home/img//product-2.jpg')}}" alt="">
+                    <img class="img-fluid w-100" src="{{asset('home/img//product-2.jpg')}}" alt="">
                 </div>
                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                     <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
@@ -476,7 +339,7 @@ Home - Shop4All
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
             <div class="card product-item border-0 mb-4">
                 <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="{{url('home/img//product-3.jpg')}}" alt="">
+                    <img class="img-fluid w-100" src="{{asset('home/img//product-3.jpg')}}" alt="">
                 </div>
                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                     <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
@@ -496,7 +359,7 @@ Home - Shop4All
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
             <div class="card product-item border-0 mb-4">
                 <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="{{url('home/img//product-4.jpg')}}" alt="">
+                    <img class="img-fluid w-100" src="{{asset('home/img//product-4.jpg')}}" alt="">
                 </div>
                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                     <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
@@ -516,7 +379,7 @@ Home - Shop4All
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
             <div class="card product-item border-0 mb-4">
                 <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="{{url('home/img//product-5.jpg')}}" alt="">
+                    <img class="img-fluid w-100" src="{{asset('home/img//product-5.jpg')}}" alt="">
                 </div>
                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                     <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
@@ -536,7 +399,7 @@ Home - Shop4All
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
             <div class="card product-item border-0 mb-4">
                 <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="{{url('home/img//product-6.jpg')}}" alt="">
+                    <img class="img-fluid w-100" src="{{asset('home/img//product-6.jpg')}}" alt="">
                 </div>
                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                     <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
@@ -556,7 +419,7 @@ Home - Shop4All
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
             <div class="card product-item border-0 mb-4">
                 <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="{{url('home/img//product-7.jpg')}}" alt="">
+                    <img class="img-fluid w-100" src="{{asset('home/img//product-7.jpg')}}" alt="">
                 </div>
                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                     <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
@@ -576,7 +439,7 @@ Home - Shop4All
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
             <div class="card product-item border-0 mb-4">
                 <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="{{url('home/img//product-8.jpg')}}" alt="">
+                    <img class="img-fluid w-100" src="{{asset('home/img//product-8.jpg')}}" alt="">
                 </div>
                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                     <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
@@ -604,28 +467,28 @@ Home - Shop4All
         <div class="col">
             <div class="owl-carousel vendor-carousel">
                 <div class="vendor-item border p-4">
-                    <img src="{{url('home/img//vendor-1.jpg')}}" alt="">
+                    <img src="{{asset('home/img//vendor-1.jpg')}}" alt="">
                 </div>
                 <div class="vendor-item border p-4">
-                    <img src="{{url('home/img//vendor-2.jpg')}}" alt="">
+                    <img src="{{asset('home/img//vendor-2.jpg')}}" alt="">
                 </div>
                 <div class="vendor-item border p-4">
-                    <img src="{{url('home/img//vendor-3.jpg')}}" alt="">
+                    <img src="{{asset('home/img//vendor-3.jpg')}}" alt="">
                 </div>
                 <div class="vendor-item border p-4">
-                    <img src="{{url('home/img//vendor-4.jpg')}}" alt="">
+                    <img src="{{asset('home/img//vendor-4.jpg')}}" alt="">
                 </div>
                 <div class="vendor-item border p-4">
-                    <img src="{{url('home/img//vendor-5.jpg')}}" alt="">
+                    <img src="{{asset('home/img//vendor-5.jpg')}}" alt="">
                 </div>
                 <div class="vendor-item border p-4">
-                    <img src="{{url('home/img//vendor-6.jpg')}}" alt="">
+                    <img src="{{asset('home/img//vendor-6.jpg')}}" alt="">
                 </div>
                 <div class="vendor-item border p-4">
-                    <img src="{{url('home/img//vendor-7.jpg')}}" alt="">
+                    <img src="{{asset('home/img//vendor-7.jpg')}}" alt="">
                 </div>
                 <div class="vendor-item border p-4">
-                    <img src="{{url('home/img//vendor-8.jpg')}}" alt="">
+                    <img src="{{asset('home/img//vendor-8.jpg')}}" alt="">
                 </div>
             </div>
         </div>
