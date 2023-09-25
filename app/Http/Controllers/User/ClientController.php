@@ -15,9 +15,10 @@ class ClientController extends Controller
         $products = Product::where('product_category_id', $id)->latest()->get();
         return view('user_template.shop', compact('category', 'products'));
     }
-    public function ProductDetail()
+    public function ProductDetail($id)
     {
-        return view('user_template.detail');
+        $product = Product::findOrFail($id);
+        return view('user_template.detail', compact('product'));
     }
     public function AddToCart()
     {

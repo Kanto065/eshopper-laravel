@@ -138,7 +138,7 @@ $categories = App\Models\Category::latest()->get();
                         <div class="navbar-nav mr-auto py-0">
                             <a href="{{route('home')}}" class="nav-item nav-link active">Home</a>
                             {{-- <a href="{{route('categoryshop')}}" class="nav-item nav-link">Shop</a> --}}
-                            <a href="{{route('productdetail')}}" class="nav-item nav-link">Shop Detail</a>
+                            {{-- <a href="{{route('productdetail')}}" class="nav-item nav-link">Shop Detail</a> --}}
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu rounded-0 m-0">
